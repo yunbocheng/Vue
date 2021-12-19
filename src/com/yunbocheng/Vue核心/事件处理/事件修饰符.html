@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件修饰符</title>
+
+    <script type="text/javascript" src="../../../../../js/vue.js"></script>
+</head>
+<body>
+
+<!--
+    Vue中的事件修饰符：
+        1. prevent：阻止默认事件(常用)
+        2. stop：阻止事件冒泡(常用)
+        3. once：事件只触发一次(常用)
+
+        4. capture：使用事件的捕获模式。
+        5. self：只有event.target是当前操作的元素是才触发事件。
+        6. passive：事件的默认行为立即执行，无需等待事件回调执行完毕。
+-->
+<div id="root">
+    <h2>欢迎来到{{name}}学习！</h2>
+    <!--需求：当触发按钮事件之后，弹出提示框，但是不会跳转到指定的页面。
+             JavaScript中使用的方式：href="javaScript:void(0)"
+             Vue中添加一个事件修饰符，阻止默认事件的发生。
+    -->
+    <!-- 阻止默认事件 -->
+    <a href="https://www.baidu.com" @click.prevent="show($event)">阻止默认事件</a>
+
+    <div class="demo1" @click="show($event)">
+        <!-- 阻止事件冒泡
+            可以看出在按钮的外边的div盒子又调用了一次show函数，当用户点击一次按钮的时候，
+            会调用一次show函数，进行一次弹窗。当点击完按钮，
+            外边嵌套的div又会调用一次show函数，进行一次弹窗。这就是典型的事件冒泡。
+
+            此时就要阻止这个事件冒泡的发生
+            我们给按钮单机事件加入一个 事件修饰符 stop,就是让这个按钮调用完这个show函数之后，
+            嵌套这个按钮的盒子就不会在调用这个函数了，阻止函数的调用。
+        -->
+        <button @click="show.stop($event)">阻止事件冒泡</button>
+    </div>
+
+    <!-- 事件只触发一次 -->
+    <button @click.once="show($event)">事件只会触发一次</button>
+
+    <!-- 修饰符可以连续调用 -->
+    <div class="demo1" @click="show($event)">
+        <!-- 既阻住了网页跳转又阻止了事件冒泡。这两个修饰符谁写在前后都一样，实现的效果都是一样的。
+             只是调用的顺序不同。
+        -->
+        <a href="https://www.baidu.com" @click.prevent.stop="show($event)">阻止默认事件和事件冒泡</a>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    Vue.config.productionTip = false;  // 阻止 Vue 在启动时生成生产提示。
+
+    const vm = new Vue({
+        el:'#root', // el用于指定当前Vue实列为哪个容器服务，值通常为css选择器字符串。
+        data:{
+            name:'清华大学'
+        },
+        methods:{
+            show(){
+                alert('同学，你好！');
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>使用条件渲染来实现一个小案例</title>
+
+    <script type="text/javascript" src="../../../../../js/vue.js"></script>
+</head>
+<body>
+
+<div id="root">
+    <!--
+     需求：当我们点击按钮的时候会对a进行加1并且会显示不同div盒子中的数据。
+    -->
+    <h1>a的值是：{{a}}</h1>
+    <button v-on:click="add($event)">点击获取大学</button>
+
+    <!--
+        注意：当a的值为1的时候，已经匹配到了第一个div，但是程序不会停止
+        程序会接着向下执行，接着比较剩下的两个div盒子。直到代码的最后
+    -->
+    <div v-show="a === 1">{{name1}}</div>
+    <div v-show="a === 2">{{name2}}</div>
+    <div v-show="a === 3">{{name3}}</div>
+
+
+    <!--
+       这三个if都是判断一下。
+       当a等于1的时候，会输出name1与name2。这个就是与 v-else-if的区别。
+    -->
+    <div v-if="a === 1">{{name1}}</div>
+    <div v-if="a === 1">{{name2}}</div>
+    <div v-if="a === 3">{{name3}}</div>
+
+    <!--
+        当第一个if满足条件的时候，就不会在执行 else-if了。
+        当a为1的时候只会输出name1，不会输出name2。
+    -->
+    <div v-if="a === 1">{{name1}}</div>
+    <div v-else-if="a === 1">{{name2}}</div>
+    <div v-else-if="a === 3">{{name3}}</div>
+
+    <!--
+    当第一个if满足条件的时候，就不会在执行 else-if了。
+    当a为1的时候只会输出name1，不会输出name2。
+-->
+    <div v-if="a === 1">{{name1}}</div>
+    <div v-else-if="a === 1">{{name2}}</div>
+    <div v-else-if="a === 3">{{name3}}</div>
+    <!-- 注意 ：使用 v-else指令的时候就不用写条件了。和Java中一样。-->
+    <div v-else>啥也不是</div>
+</div>
+
+<script type="text/javascript">
+    Vue.config.productionTip = false;  // 阻止 Vue 在启动时生成生产提示。
+
+    new Vue({
+        el:'#root', // el用于指定当前Vue实列为哪个容器服务，值通常为css选择器字符串。
+        data:{
+            name1:'清华大学',
+            name2:'北京大学',
+            name3:'复旦大学',
+            a:0
+        },
+        methods:{
+            add(){
+                this.a++;
+            }
+        }
+    })
+</script>
+</body>
+</html>

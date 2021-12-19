@@ -4,8 +4,35 @@
     <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="1">
+          <list size="28">
             <item index="0" class="java.lang.String" itemvalue="v-bind:va" />
+            <item index="1" class="java.lang.String" itemvalue="@click" />
+            <item index="2" class="java.lang.String" itemvalue="v-on:click" />
+            <item index="3" class="java.lang.String" itemvalue="@click.prevent" />
+            <item index="4" class="java.lang.String" itemvalue="@click.stop" />
+            <item index="5" class="java.lang.String" itemvalue="@click.once" />
+            <item index="6" class="java.lang.String" itemvalue="@keyup" />
+            <item index="7" class="java.lang.String" itemvalue="@keydown" />
+            <item index="8" class="java.lang.String" itemvalue="@click.enter" />
+            <item index="9" class="java.lang.String" itemvalue="@keyup.enter" />
+            <item index="10" class="java.lang.String" itemvalue="@keyup.delete" />
+            <item index="11" class="java.lang.String" itemvalue="@keyup.caps-lock" />
+            <item index="12" class="java.lang.String" itemvalue="@keyup.mate" />
+            <item index="13" class="java.lang.String" itemvalue="@keyup.ctrl" />
+            <item index="14" class="java.lang.String" itemvalue="@keyup.13" />
+            <item index="15" class="java.lang.String" itemvalue="@keydown.alt" />
+            <item index="16" class="java.lang.String" itemvalue="@keydown.huiche" />
+            <item index="17" class="java.lang.String" itemvalue="@click.prevent.stop" />
+            <item index="18" class="java.lang.String" itemvalue="@keyup.ctrl.y" />
+            <item index="19" class="java.lang.String" itemvalue="v-model" />
+            <item index="20" class="java.lang.String" itemvalue="v-show" />
+            <item index="21" class="java.lang.String" itemvalue="v-if:" />
+            <item index="22" class="java.lang.String" itemvalue="v-if" />
+            <item index="23" class="java.lang.String" itemvalue="v-else-if" />
+            <item index="24" class="java.lang.String" itemvalue="v-else" />
+            <item index="25" class="java.lang.String" itemvalue=":key" />
+            <item index="26" class="java.lang.String" itemvalue="v-for:" />
+            <item index="27" class="java.lang.String" itemvalue="v-for" />
           </list>
         </value>
       </option>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-model="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>姓名案例-计算属性的简写方法</title>
+    <!-- 引入vue.js文件 -->
+    <script type="text/javascript" src="../../../../../js/vue.js"></script>
+</head>
+<body>
+
+<!--
+    简写的形式只能应用于：
+        只考虑计算属性的读取而不考虑计算属性的修改的时候。
+-->
+<!--
+
+        调用methods中的函数的两种情况：
+            (1)：绑定事件调用的函数，括号可加可不加。
+            (2)：插值语法调用函数的时候，必须加括号
+
+        computed中调用的不是函数，就是一个属性，不能加括号。
+-->
+<div id="root">
+    姓：<input type="text" v-model="firstName"><br/><br/>
+    名：<input type="text" v-model="lastName"><br/><br/>
+    <!-- 注意：简化写法调用的也是vm中的fullName这个属性，而不是fullName方法，
+              在vm中根本就不存在这个 fullName()函数。
+    -->
+    全名：<span>{{fullName}}</span>
+</div>
+
+<script>
+    Vue.config.productionTip = false;
+
+    <!--声明一个Vue实列-->
+    const vm = new Vue({
+        el: "#root",
+        /* Vue中认为data中的数据就是属性 */
+        data: {
+            firstName: '张',
+            lastName: '三',
+        },
+        computed: {
+            // 完整版
+/*            fullName:{
+                get(){
+                    console.log(this);
+                    return this.firstName + '-' + this.lastName;
+                },
+                set(value){
+                    console.log('set',value);
+                    let array = value.split('-');
+                    this.firstName = array[0];
+                    this.lastName = array[1];
+                }
+            }*/
+            // 简化版 (对象中函数的简化写法，这个函数代表的就是以前的get()方法，
+            //        实际开发中一般不需要计算属性的值，不写set()方法。)
+            fullName(){
+                console.log(this);
+                return this.firstName + '-' + this.lastName;
+            }
+        }
+    });
+</script>
+</body>
+</html>

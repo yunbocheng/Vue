@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>监听天气_深度监听</title>
+    <!-- 引入外部的Vue.js文件 -->
+    <script type="text/javascript" src="../../../../../js/vue.js"></script>
+</head>
+<body>
+<!--
+    深度监视：
+        (1) : Vue中的watch默认不能检测对象内部值的改变。(一层)
+        (2) : 配置deep:true可以检测对象内部值改。(多层)
+    备注：
+        (1) : Vue自身可以监测对象内部值的改变，但Vue提供的watch默认不可以。
+        (2) : 使用watch时根据数据的具体结构，决定是否采用深度监视。
+-->
+<!-- 创建一个容器 -->
+<di id="root">
+    <h2>今天的天气很{{info}}</h2>
+    <!-- 给这个按钮绑定单机事件，当点击按钮的时候切换天气 -->
+    <button @click='change($event)'>点击切换天气</button>
+
+    <!-- 给定一个需求，当我们点击按钮的时候，给a的值加1。
+        此时需要使用 numbers.a 的方式来获取到a数据，进而改变a的值。
+        因为a存在于numbers对象中，而numbers对象存储在vm中。
+        vm中只能直接获取到numbers。而不能直接获取到 a。
+
+    -->
+    <h2>{{'a的值是：' + numbers.a}}</h2>
+
+    <!--
+        正常的话。我们应该在methods中加入一个函数，这个函数用来处理这个按钮单机事件
+        但是这里的处理逻辑比较简单，我们直接就在绑定事件的地方进行书写逻辑。
+    -->
+    <button @click="numbers.a++">点我给a加1</button>
+
+    <h2>{{'b的值是：' + numbers.b}}</h2>
+    <button @click="numbers.b++">点我给b加1</button>
+
+</di>
+
+
+<script type="text/javascript">
+
+    <!-- 创建一个Vue实例对象 -->
+    const vm = new Vue({
+        'el':'#root',
+        data:{
+            isHot:true,
+            /* numbers是一个对象，在一个对象中又声明了一个对象。
+            * 对象中可以包含对象。
+            * */
+            numbers:{
+/*               原始书写格式：
+                 'a':1,
+                'b':1*/
+                /* 我们都使用对象的简化写法,省略了key的双引号 */
+                a:1,
+                b:1
+            }
+        },
+
+        computed:{
+            info(){
+                return this.isHot ? '炎热':'寒冷';
+            }
+        },
+        methods:{
+            change(){
+                this.isHot = !this.isHot;
+            }
+        },
+        watch:{
+            /* 这里我们只想给numbers对象中的a添加监听事件，不给b添加监听事件。
+            *  但是此时vm中只存在 numbers属性，不存在a和b属性。
+            *  此时我们需要使用深度查询的方式来获取到a属性，给a单独的添加监听事件。
+            *  而不是给整个的numbers添加监听事件。
+            *
+            *  numbers.a ：使用对象key简写的方式(key不加引号)。这样写不符合对象中key值的书写格式。
+            *  'numbers.a' : 我们使用原始的方式(key值加引号)是可以获取到 numbers中的a的。
+            *
+            *  监视多级结构中某个属性的变化。
+            * */
+            'numbers.a':{
+                handler(newValue, oldValue) {
+                    console.log('a被监听到了',newValue,oldValue);
+                }
+            },
+
+            /* 我们让numbers中的所有属性都可以监视numbers的变化。加入一个深度属性。*/
+            numbers:{
+                deep:true,
+                handler(newValue, oldValue) {
+                    console.log('numbers被监听到了',newValue,oldValue);
+                }
+            }
+        }
+    })
+
+    /* 监听的第二种写法，在这个函数中存在两个参数，第一个是监视对象。第二个参数是一个配置对象。 */
+/*    vm.$watch('isHot',{
+        immediate:true,
+        handler(newValue,oldValue){
+            console.log("isHot被执行了。",newValue,oldValue);
+        }
+    })*/
+</script>
+</body>
+</html>

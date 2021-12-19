@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>监听天气(切换天气)</title>
+    <!-- 引入外部的Vue.js文件 -->
+    <script type="text/javascript" src="../../../../../js/vue.js"></script>
+</head>
+<body>
+    <!-- 创建一个容器 -->
+    <di id="root">
+        <!--
+            这样子写是可以的。因为此时为三目表达式，插值语法中可以存在表达式。
+            <h2>今天的天气很{{result ? '炎热' ：'寒冷'}}</h2>
+
+            以下这么写是错误的，因为if...else是语句，而不是表达式。在插值语法中只能存在表达式。
+            <h2>今天的天气很{{if(result === '炎热'){..}else{...}}}</h2>
+
+        -->
+        <h2>今天的天气很{{info}}</h2>
+        <!-- 给这个按钮绑定单机事件，当点击按钮的时候切换天气 -->
+        <button @click='change($event)'>点击切换天气</button>
+
+        <!--
+            在绑定事件的时候，如果事件逻辑不是很复杂，我们可以在事件后书写简单的代码来绑定事件。
+            就不用在vm对象中给定 methods 对象并且在对象中指定对用的处理事件函数。
+            注意；此时没有在methods对象的函数中调用处理函数，所以直接就可以获取到vm对象。
+                 不用使用this来指向vm调用其中的属性。
+        -->
+        <button @click='result = !result;'>点击切换天气</button>
+    </di>
+
+
+    <script type="text/javascript">
+        <!-- 创建一个Vue实例对象 -->
+        const vm = new Vue({
+            el:'#root',
+            data:{
+                result:true,
+            },
+            computed:{
+                /* 此时只是简单的获取天气，不涉及到天气的修改，不涉及到set，使用计算函数的简化写法。*/
+                info(){
+                    return this.result ? '炎热':'寒冷';
+                }
+            },
+            methods:{
+                change(){
+                    /* 此时的result在vm中，Vue帮助我们将this自指向了vm对象我。我们在这里就可以通过vm来获取其中的result值。   */
+                    this.result = !this.result;
+                }
+            }
+        })
+    </script>
+</body>
+</html>
