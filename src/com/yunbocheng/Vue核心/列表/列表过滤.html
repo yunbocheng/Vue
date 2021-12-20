@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>列表过滤(使用计算属性)</title>
+    <!--
+        当 watch与 computed 都可以实现功能的时候。
+        我们优先选用 computed
+    -->
+    <script type="text/javascript" src="../../../../../js/vue.js"></script>
+</head>
+<body>
+
+<div id="root">
+    <!-- 这里必须使用 v-model 是因为Vue中的data中需要获取此时用户输入的data值。-->
+    <input type="text" placeholder="请输入关键字进行搜索" v-model="keyWords"/>
+    <h2>人员列表</h2>
+    <ul>
+        <li v-for="(p,index) in fil" :key="p.id">
+            {{p.name}}-{{p.age}}-{{p.sex}}
+        </li>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    Vue.config.productionTip = false;  // 阻止 Vue 在启动时生成生产提示。
+
+    const vm = new Vue({
+        el:'#root', // el用于指定当前Vue实列为哪个容器服务，值通常为css选择器字符串。
+        data: {
+            keyWords:'',
+            persons: [
+                /* 这里的id作为一个对象的唯一标识，防止存在多个张三分不清楚 */
+                {id: '001', name: '马冬梅', age: 18,sex:'女'},
+                {id: '002', name: '周冬雨', age: 19,sex:'女'},
+                {id: '003', name: '周杰伦', age: 20,sex:'男'},
+                {id: '004', name: '温兆伦', age: 21,sex:'男'}
+            ],
+            fil:[]
+        },
+        computed:{
+            fil(){
+                /* 这个p就是persons这个数组中的每一个对象。*/
+                return this.persons.filter((p) => {
+                    /* name.indexOf(字符)：这个方法是获取字符串中是否存在某个字符。
+                    * 当存在的时候返回这个字符在字符串中所对应的下标值。
+                    * 当字符不存在的时候返回 -1
+                    *
+                    * 注意：当传递的字符是一个空的时候。返回的也是0。
+                    * */
+                    return p.name.indexOf(this.keyWords) !== -1;
+                })
+            }
+        }
+    })
+</script>
+</body>
+</html>

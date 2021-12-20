@@ -49,10 +49,11 @@
 
         7. 不是所有的按键都可以绑定事件。有些按键连键盘捕获都捕获不到这个按键，比如调整音量大小、亮度等按键。
 
-
+        8. 有一些按键 (.esc 以及所有的方向键) 在 IE9 中有不同的 key 值, 如果你想支持 IE9，这些内置的别名应该是首选。
     -->
     <input type="text" placeholder="按下键盘触发事件" @keydown.huiche="show($event)">
 
+    <!-- 此时只有点击ctrl+y之后在松开才会触发这个时间函数 -->
     <input type="text" placeholder="按下键盘触发事件" @keyup.ctrl.y="show($event)">
     <!--
         不仅可以应用键名去绑定，还可以通过键值去绑定，但是通过键值的方式不被推荐。
