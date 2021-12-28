@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件的嵌套</title>
+
+    <script type="text/javascript" src="../../../../js/vue.js"></script>
+</head>
+<body>
+
+<div id="root">
+  <h2>欢迎学习Vue！{{name}}</h2>
+
+  <!--使用app组件 -->
+  <!--<app></app>-->
+
+  <!-- 只有将 student 组件声明为全局变量，这里才可以这么访问。
+       如果不是全局组件，只能在 注册组件的这个父组件或者vm中使用这个组件。其他的人不能使用。
+  -->
+<!--  <student></student>
+  <hello></hello>-->
+</div>
+
+<script type="text/javascript">
+    Vue.config.productionTip = false;  // 阻止 Vue 在启动时生成生产提示。
+
+    // 创建一个hello组件。 想让这个组件和谁同级就将这个组件写到谁的 components 属性中。
+    const hello = Vue.extend({
+      name:'my-hello',
+      template:`
+      <h2>hello.{{name}}</h2>
+      `,
+      data(){
+        return {
+          name:'TOM'
+        }
+      }
+    })
+
+    // 创建一个学生组件，作为学校的子组件。
+    const student = Vue.extend({
+      name:'my-student',
+      template:`
+       <div>
+        <h2>学生姓名：{{name}}</h2>
+        <h2>学生年龄：{{age}}</h2>
+      </div>
+      `,
+      data(){
+        return {
+          name:'喜羊羊',
+          age:20
+        }
+      }
+    })
+
+    // 创建一个学校组件（使用原始方式，不使用简写的方式）
+    const school = Vue.extend({
+      name:'my-school',
+      template:`
+      <div>
+        <h2>学校名称：{{name}}</h2>
+        <h2>学校地址：{{address}}</h2>
+        <student></student>
+      </div>
+      `,
+      data(){
+        return {
+          name:'北京大学',
+          address:'海淀区'
+        }
+      },
+      // 组件中也存在放置组件的属性，这里面放的组件就是这个组件的子组件。(组件的嵌套)
+      // 注意：这里存在一个顺序问题，当这里使用student组件的时候，必须保证这个组件已经被声明了。
+      //      也就是这个子组件要在父组件的上面定义。
+
+      // 这是一个局部组件，组件在哪个vm中声明，就只能在哪个vm中使用。组件也相当于一个vm
+      // 所以说当前这个 student 组件只能在 school 这个组件中使用，不可以在 new Vue()中使用。
+
+      // 如果声明的student为全局变量，我们都不用在组件中写组件的这个配置，直接在上面使用 student 组件即可。
+      // 但实际开发中一般不使用全局组件，都使用局部组件。而且使用全局组件不用在意 student 组件的声明在什么地方。
+      components:{
+        student,
+      }
+    })
+
+    // 声明student组件为全局组件
+    Vue.component('student',student);
+
+    /*
+    *  在Vue中。vm下面有一个大的组件 app组件。这个 app组件负责管理所有的组件。
+    * */
+    const app = Vue.extend({
+      template:`
+        <div>
+        <hello></hello>
+        <school></school>
+        </div>
+      `,
+      components:{
+        /* 这里不写 student，因为student已经被school管理。分为层级关系。*/
+        school,
+        hello
+      }
+    })
+
+    // 创建Vue实列对象vm
+    new Vue({
+        /* 我们如果想让 HTML中的div中的元素为空。在这里使用 template结构化*/
+        template:`
+          <app></app>
+        `,
+        el:'#root', // el用于指定当前Vue实列为哪个容器服务，值通常为css选择器字符串。
+        data:{
+            name:'Jack',
+        },
+      // 第二步：注册组件（局部注册）
+      components:{
+          app,
+      }
+    })
+</script>
+</body>
+</html>

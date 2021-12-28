@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>非单文件组件</title>
+
+    <script type="text/javascript" src="../../../../../js/vue.js"></script>
+</head>
+<body>
+<!--
+    Vue中使用组件的三大步骤：
+        一、定义组件(创建组件)
+        二、注册组件
+        三、使用组件(写组件标签)
+
+    一、如何定义以恶搞组件？
+        使用Vue.extend(options)创建，其中options和new Vue(options)时传入的那个options几乎一样，但是也有点区别：
+            1. el不要写，为什么？最终所有的组件都要经过一个vm的管理。由vm中的el决定服务哪个容器。
+            2. data必须写成函数，为什么？避免组件被复用时，数据存在引用关系。
+
+        二、如何注册一个组件？
+            1. 局部注册：靠new Vue的时候传入components选项。
+            2. 全局注册：靠Vue.component('组件名',组件)
+
+        三、编写组件标签
+            <school></school>
+-->
+<div id="root">
+    <h2>{{msg}}</h2>
+    <hr/>
+    <!-- 第三步：编写组件标签 -->
+    <school></school>
+    <hr/>
+    <!-- 第三步：编写组件标签 -->
+    <student></student>
+    <hr/>
+    <!-- 第三步：编写组件标签-->
+    <hello></hello>
+</div>
+
+<script type="text/javascript">
+    Vue.config.productionTip = false;  // 阻止 Vue 在启动时生成生产提示。
+
+    // 第一步：创建school组件
+    // 创建一个组件，组件中的参数是一个配置对象。配置对象中有好多的配置属性。
+    // 这个组件名只是一个临时的组件名，真正的名字在 new Vue()中 components 配置属性中。
+    // 这里建议和 components 中注册组件的名字一样，这样就可以使用es6中声明对象的简写形式。
+    // 简写规则：当属性名与属性值的名字一致的时候，可以省略属性名，直接写属性名即可。
+    const school = Vue.extend({
+        // el:'#root', // 组件定义时，一定不要写el配置项，因为最终所有的组件都要被一个vm管理，由vm决定服务
+
+        /* template属性中只能存在一个根节点。需要将多个节点存储到一个根节点中*/
+        template:`
+            <div>
+            <h2>学校名称：{{schoolName}}</h2>
+            <h2>学校地址：{{address}}</h2>
+            <button @click="showName($event)">点我提示学校名称</button>
+            </div>
+        `,
+        // 组件中的data配置一定要写成一个普通函数，返回一个对象。不可以写成对象的形式。
+        // 因为组件会被多个人调用，如果是一个对象，那么这个对象指向的内存地址是唯一的。
+        // 只要有一个人改变这个对象中的数据，那么其他调用这个对象中的数据都会发生变化。
+        /*
+            这里我们定义为一个函数，让他返回一个对象，这样当每个人调用这个data数据的时候
+            都会从新创建一个属性值不同的对象。这样就不会修改其他人调用这个data数据的属性值。
+        */
+        data(){
+            return {
+                schoolName:'清华大学',
+                address:'北京海淀区',
+            }
+        },
+        // 在组件中可以声明触发事件时调用的函数。即使上面写的是函数的形式的data数据。
+        // data中的数据还是会直接存储到vm中并且会发生数据代理。直接通过vm.schoolName调用即可。
+        methods:{
+            showName(){
+                alert(this.schoolName);
+            }
+        },
+    })
+
+    // 第一步：创建student组件
+    const student = Vue.extend({
+        template:`
+          <div>
+          <h2>学生姓名：{{studentName}}</h2>
+          <h2>学生年龄：{{age}}</h2>
+          </div>
+        `,
+        data(){
+            return {
+                studentName:'张三',
+                age:20
+            }
+        }
+    })
+
+    // 第一步：创建hello组件
+    const hello = Vue.extend({
+        template:`
+        <div>
+             <h2>您好啊！{{name}}</h2>
+        </div>
+        `,
+        data(){
+            return {
+                name:'Tom',
+            }
+        }
+    })
+
+    // 第二步：注册组件（全局组件）。第一个参数是真正的组件名，第二个参数是定义的组件。
+    Vue.component('hello',hello);
+
+    // 创建Vue实例对象vm
+    new Vue({
+        el:'#root', // el用于指定当前Vue实列为哪个容器服务，值通常为css选择器字符串。
+        data:{
+          msg:'您好啊！'
+        },
+        // 第二步：注册组件（局部注册）
+        components:{
+            /* 这里属性名和属性值名字一样，可以使用对象的简化写法。只写属性值即可。
+            school:school,
+            student:student
+
+            原始形式:
+            xuexiao:school,
+            xuesheng:student
+            这里我们先采用简写的方式。
+            * */
+            school,
+            student
+        }
+    })
+</script>
+</body>
+</html>

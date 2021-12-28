@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>引出生命周期</title>
+
+    <script type="text/javascript" src="../../../../../js/vue.js"></script>
+</head>
+<body>
+
+<!--
+    生命周期：
+        1. 别名：生命周期回调函数、生命周期函数、生命周期钩子。
+        2. 是什么：Vue在关键时刻棒我们调用的一些特殊的函数。
+        3. 生命周期函数的名字不可更改，但函数的具体内容是程序员根据需求编写的。
+        4. 生命周期函数中的this指向的是vm 或 组件实列对象。
+
+    常用的生命周期钩子：
+        1. mounted: 发起Ajax请求、启动定时器、绑定自定义事件、订阅消息等【初始化操作】。
+        2. beforeDestroy: 清除定时器、解绑自定义事件、取消订阅消息等【收尾工作】。
+
+    关于销毁Vue实例：
+        1. 销毁后借助Vue开发者工具看不到任何信息。
+        2. 销毁后自定义事件会失效，但原生DO事件依然有效。
+        3. 一般不会在beforeDestroy操作数据，因为即便操作数据，也不会在触发更新流程了。
+-->
+<div id="root" >
+    <!--
+        v-bind:style 的对象语法十分直观——看着非常像 CSS，但其实是一个 JavaScript 对象。
+        CSS property 名可以用驼峰式 (camelCase) 或短横线分隔 (kebab-case，记得用引号括起来) 来命名：
+    -->
+    <!--
+        引入data中独立的属性。此时需要我们手动添加一个花括号。把这个变成一个style对象。
+         如果在data中直接声明的就是style中的关键属性名，那么就可以使用对象中属性的简写形式。
+
+        这里面的属性民不是自定义的，必须是style样式对象中的关键字。
+
+        此时绑定的是：style属性。
+    -->
+    <p v-bind:style="{color:colorObj,fontSize}">{{name}}</p>
+    <!--
+        引入data中对象属性。直接引入data中属性的对象名即可。
+     -->
+    <p v-bind:style="styleObj">{{name}}</p>
+
+    <!--
+        也可以获取到样式对象中的一部分配置。只取出样式对象中的颜色属性。
+        此时从对象中取出的样式就是一个普通的属性，而不是一个对象，需要添加花括号。
+    -->
+    <p v-bind:style="{color:styleObj.color}">{{name}}</p>
+
+    <h2 v-bind:style="{opacity:opacity}">一闪一闪</h2>
+</div>
+
+<script type="text/javascript">
+    Vue.config.productionTip = false;  // 阻止 Vue 在启动时生成生产提示。
+
+    new Vue({
+        el:'#root', // el用于指定当前Vue实列为哪个容器服务，值通常为css选择器字符串。
+        data:{
+            /*
+            * style样式的单独配置写法。
+            * */
+            colorObj: 'blue',
+            // 以下是配置的原始写法，需要给key值加上双引号。
+            // 这个data中的属性名都是自定义的。
+            // 如果直接定义为 style配置属性中的配置属性名，那么在style对象中可以使用简写的形式。
+            'fontSize': '60px',
+
+            /*
+            * style样式的对象写法。
+            * */
+            styleObj:{
+
+                color:'red',
+                fontSize:'40px',
+            },
+            name:'欢迎学习Vue',
+            opacity:1,
+        },
+
+        // Vue完成模板的解析并初始化的真实DOM元素放入到页面(挂载完毕)调用mounted函数。
+        // 所谓 挂载其实就是DOM在页面中显示出来的。
+        // Vue中的这些生命函数是固定的，但是其中的逻辑是不定的，我们可以自己任意写。
+        mounted(){
+            // 此时this执行是Vue实例对象vm
+            console.log('mounted',this);
+
+            // 这里使用的是箭头函数，将这个箭头函数中的this指向了外面
+            // 外面是mounted()函数，这个函数中的this指向的是Vue的实列对象vm。
+            // setInterval是一个定时器，第一个参数是这个定时器调用的函数。第二个参数是调用函数的间隔时间。
+            setInterval(()=>{
+                // 这里的this也是执行的Vue中的实例对象vm。可以使用vm直接获取到data中的opacity值
+                // 每隔 16 毫秒调用一次定时器中的业务代码。
+                this.opacity -= 0.01;
+                if (this.opacity <= 0) this.opacity = 1;
+            },16)
+        }
+    })
+</script>
+</body>
+</html>
