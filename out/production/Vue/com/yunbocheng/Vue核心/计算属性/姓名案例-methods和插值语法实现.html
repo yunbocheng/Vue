@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-model="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>姓名案例-methods和插值语法实现</title>
+  <!-- 引入vue.js文件 -->
+  <script type="text/javascript" src="../../../../../js/vue.js"></script>
+</head>
+<body>
+  <!-- 准备好一个容器 -->
+  <div id="root">
+      姓：<input type="text" v-model="firstName"><br/><br/>
+      名：<input type="text" v-model="lastName"><br/><br/>
+    <!-- 注意:这里与绑定事件的时候调用函数的方式不同。绑定事件调用函数的时候可以加括号可以不加。
+             但是在 插值语句中调用函数的时候必须加括号，因为我们需要的是这个函数的返回值。
+             如果不加括号，获取到的是这个函数体的内容: function () { [native code] }
+
+             加上括号之后获取到的才是函数的返回值。
+    -->
+      全名：<span>{{fullName()}}</span>  <!-- 张-三 -->
+  </div>
+
+  <script>
+    Vue.config.productionTip = false;
+    <!--声明一个Vue实列-->
+    const vm = new Vue({
+      el:"#root",
+      data:{
+        firstName:'张',
+        lastName:'三'
+      },
+      methods:{
+        fullName(){
+          console.log("=====");
+          /* 注意：此时的this表示的vue对象(vm)，所以可以获取vm中的属性值。
+          *       只有此时的 this 代表Vue对象的时候，才可以获取到firstName、lastName
+          *       的值。
+          * 但是如果此处使用箭头函数，获取到的this就是Windows，就获取不到其中属性值了。
+          * */
+          return this.firstName.substr(0,3) + '-' + this.lastName;
+        }
+      }
+    })
+  </script>
+</body>
+</html>

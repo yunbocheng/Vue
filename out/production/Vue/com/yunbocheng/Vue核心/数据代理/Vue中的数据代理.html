@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue中的数据代理</title>
+    <!-- 引入Vue的js文件 -->
+    <script src="../../../../../js/vue.js"></script>
+</head>
+<body>
+
+<!--
+    1. Vue中的数据代理：
+        通过vm对象来代理data对象中属性的操作。(读/写)
+    2. vue中数据代理的好处：
+        更加方便的操作data中的数据
+    3. 基本原理：
+        通过Object.defineProperty()把data对象中所有属性添加到vm上。
+        为每一个添加到vm上的属性，指定一个getter/setter。
+        在getter/setter内部取操作(读/写)data中对应的属性。
+
+    4. 在Vue的实列对象vm中，只要数据存在(...)说明一定使用了数据代理。
+
+-->
+    <!--给定一个容器，也就是MVVM中的V（view）-->
+    <div id="root">
+        <!--
+            此时data中的数据全部存储到了vm的 _data中。
+            并且没有发生动态代理，只是简单的将data中的数据复制一份存储到 _data 中
+
+            以前在模板语法中讲过，只要是vm中的数据，都可以直接使用 {{xxx}} 直接获取。
+            此时的 _data 在vm中，并且_data 中存在name属性值。
+
+            所以说，如果不使用数据代理完全可以获取到data中的值。
+        -->
+        学校名称：{{_data.name}} <br/>
+
+        <!--
+            当我们把 name、address直接存储到 vm 中的时候才发生了Vue的数据代理
+            相当于我们将 vm中的_data中的数据复制一份传递给vm对象，此时vm中的name、address
+            就代理了 _data中的name与address。这个地方才发生了数据代理。
+
+            就是将 vm(name、address)代理了_data(name,address)，此时使用的就是：Object.defineProperty
+
+            之所以使用数据代理，是为了使我们的开发更加方便。就不用使用 {{_data.name}}的方式。
+
+            并且当我们存储完这个两个数据的时候，在vm中会自动生成 getter/setter 方法
+
+            当在页面中取出data中的数据的时候会调用 getter 方法。
+            当在网页上修改数据的时候，会自动调用setter方法修改data中的数据。
+
+            并且这个getter/setter直接操作的是vm中的_data，而不是data。
+            通过_data改变data中的数据。
+
+
+        -->
+        学校地点：{{address}}
+    </div>
+
+    <script type="text/javascript">
+        /*定义一个MVVM中的vm(视图模型)，也就是Vue对象*/
+        const vm = new Vue({
+            el:"#root",
+            /*
+                这个data中的数据会存储到vm中的 _data属性中。此时还没有发生动态代理。
+                只是单纯的把 data中的数据赋值给了 vm中_data。
+
+            */
+            data:{
+                name:'清华大学',
+                address:'北京大兴区'
+            }
+        })
+    </script>
+</body>
+</html>

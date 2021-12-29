@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>监听天气_监视属性</title>
+    <!-- 引入外部的Vue.js文件 -->
+    <script type="text/javascript" src="../../../../../js/vue.js"></script>
+</head>
+<body>
+
+<!--
+    监视属性watch：
+        1. 当被监视的属性变化时，回调函数自动调用(即handler()函数)，进行相关的操作。
+
+        2. 监视的属性必须存在(原始属性、计算属性)，才能进行监视。
+
+        3. 监视的两种写法：
+            (1) new Vue时传入watch配置。
+            (2) 通过vm.$watch监视。
+
+        4. 什么时候使用 传入watch配置?什么时候使用vm.$watch监视
+            当我们创建Vue对象的时候已经确定了给哪个属性加入监视就使用 Vue种的watch配置。
+            当创建Vue实例的时候，不确定给哪个属性加入监听器，就使用vm.$watch监视。
+-->
+<!-- 创建一个容器 -->
+<di id="root">
+    <h2>今天的天气很{{info}}</h2>
+    <!-- 给这个按钮绑定单机事件，当点击按钮的时候切换天气 -->
+    <button @click='change($event)'>点击切换天气</button>
+</di>
+
+
+<script type="text/javascript">
+
+    <!-- 创建一个Vue实例对象 -->
+    const vm = new Vue({
+        // 在对象中，我们正常应该使用这种形式的key-value ：'el':'#root',
+        // 我们都是使用的 es6 的对象简化写法，都省略了双引号的形式。
+        // 正常的对象中的key都是带有双引号的。
+        'el':'#root',
+        data:{
+            isHot:true,
+        },
+        computed:{
+            /* 此时只是简单的获取天气，不涉及到天气的修改，不涉及到set，使用计算函数的简化写法。*/
+            info(){
+                return this.isHot ? '炎热':'寒冷';
+            }
+        },
+        /* methods对象中存在的是函数:这些函数用于处理事件的时候调用。
+            而在 computed对象以及watch对象中存在的都是属性。
+        */
+        methods:{
+            change(){
+                /* 此时的result在vm中，Vue帮助我们将this自指向了vm对象我。我们在这里就可以通过vm来获取其中的result值。   */
+                this.isHot = !this.isHot;
+            }
+        },
+        /* 监听属性需要加入一个新的对象。watch对象。
+        *  监听的第一中种写法
+        * */
+        /*watch:{
+            /!* 这是一个监听属性，这个监听属性也写成对象的方式。
+            * 监听器监听的是 data中的数据。当被监听的data的值改变的时候
+            * 会调用handler()函数中的内容来进行操作。
+            *
+            * 这里监听的属性是我们在 data中自定义的属性，我们还可以监视计算属性。
+            * 也就是 computed中的属性。
+            *
+            * *!/
+            isHot:{
+                // 初始化vm对象时调用一次 handler()函数。
+                // 输出：isHot被执行了。 true undefined
+                // 后边之所以输出 undefined，是因为还没有进行修改。根本不存在旧值。
+                immediate:true,
+                /!*
+                *  在一个监听器中存在许多的配置。  handler()只是其中的一个。
+                *  这两个参数代表的新数据与旧数据，参数名是自定义的。
+                *  第一个参数(newValue)代表新数据。
+                *  第二个参数(oldValue)代表旧数据。
+                * *!/
+                handler(newValue,oldValue){
+                    console.log("isHot被执行了。",newValue,oldValue);
+                }
+            }
+        }*/
+    })
+
+    /* 监听的第二种写法，在这个函数中存在两个参数，第一个是监视对象。第二个参数是一个配置对象。 */
+    vm.$watch('isHot',{
+        immediate:true,
+        handler(newValue,oldValue){
+            console.log("isHot被执行了。",newValue,oldValue);
+        }
+    })
+</script>
+</body>
+</html>
