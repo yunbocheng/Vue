@@ -23,7 +23,7 @@ import App from './App.vue'
 *
 * */
 // 引入插件（我们可以引入多个插件并且使用多个插件）
-import plugins from "./plugins";
+import plugins from "./plugins"
 Vue.config.productionTip = false
 
 // 引用（使用）插件。使用插件的时候可以向插件文件中传递数据。

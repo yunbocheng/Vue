@@ -4,6 +4,7 @@
     <h2>学生姓名：{{name}}</h2>
     <h2>学生年龄：{{age}}</h2>
     <button @click="showName($event)">点击我获取学生姓名</button>
+
   </div>
 </template>
 
@@ -31,7 +32,7 @@
 *             }
 *           }
 * */
-export default {
+export default{
   name: "Student",
   data(){
     return {

@@ -16,12 +16,18 @@
 
       注意：只有涉及Number类型的数据的时候，才会存在动态数据绑定的问题。
            如果传递的本身就是一个字符串，那就没有必要的在进行动态数据绑定。
+
+      使用这个 props 可以完成父子组件之间数据的传递。
+      可以把父类组件写的数据传递到子类。子类可以获取父类给定的数据然后进行处理、展示操作。
+
+       父类使用 :name :age 动态数据绑定的方式传递。
+       子类使用 props["name","age"] 进行接收。
     -->
     <!-- 学生1 -->
-    <Student name="张三" :age="20"/>
+    <Student name="李四" :age="20"/>
 
     <!-- 学生2 -->
-    <Student name="李四" :age="22"/>
+    <Student name="张三" :age="22"/>
   </div>
 </template>
 
@@ -36,7 +42,9 @@ export default {
   data(){
     return {
       msg:"欢迎学习Vue",
-      msg2:"<span style='color: red;font-size: 20px'>点我提示信息</span>"
+      msg2:"<span style='color: red;font-size: 20px'>点我提示信息</span>",
+      name:"李四",
+      age:22,
     }
   },
   methods:{
