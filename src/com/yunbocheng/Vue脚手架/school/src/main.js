@@ -29,7 +29,7 @@
 *      render函数接收到的createElement函数去指定具体的内容。
 *
 * */
-import Vue from 'vue'
+import Vue from 'vue/dist/vue'
 import App from './App.vue'
 
 Vue.config.productionTip = false
