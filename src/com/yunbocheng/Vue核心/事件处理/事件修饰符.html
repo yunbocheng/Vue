@@ -17,6 +17,19 @@
         4. capture：使用事件的捕获模式。
         5. self：只有event.target是当前操作的元素是才触发事件。
         6. passive：事件的默认行为立即执行，无需等待事件回调执行完毕。
+
+
+        .stop - 调用 event.stopPropagation()。
+        .prevent - 调用 event.preventDefault()。
+        .capture - 添加事件侦听器时使用 capture 模式。
+        .self - 只当事件是从侦听器绑定的元素本身触发时才触发回调。
+        .{keyCode | keyAlias} - 只当事件是从特定键触发时才触发回调。
+        .native - 监听组件根元素的原生事件。
+        .once - 只触发一次回调。
+        .left - (2.2.0) 只当点击鼠标左键时触发。
+        .right - (2.2.0) 只当点击鼠标右键时触发。
+        .middle - (2.2.0) 只当点击鼠标中键时触发。
+        .passive - (2.3.0) 以 { passive: true } 模式添加侦听器
 -->
 <div id="root">
     <h2>欢迎来到{{name}}学习！</h2>

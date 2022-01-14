@@ -13,7 +13,7 @@
      需求：当我们点击按钮的时候会对a进行加1并且会显示不同div盒子中的数据。
     -->
     <h1>a的值是：{{a}}</h1>
-    <button v-on:click="add($event)">点击获取大学</button>
+    <button @click="add($event)">点击获取大学</button>
 
     <!--
         注意：当a的值为1的时候，已经匹配到了第一个div，但是程序不会停止

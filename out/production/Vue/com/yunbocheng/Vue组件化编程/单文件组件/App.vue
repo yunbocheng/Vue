@@ -15,9 +15,9 @@
 *   路径信息是针对 App.vue 这个文件的相对路径。
 *
 * 注意：在脚手架中，这个 .vue可写可不写。一般不写。
-*       import School from "./School.vue";
+*       import School from "./Count.vue";
 *
-*       引入同级文件的时候，./可写可不写。我们一般写上
+* 前面的这个 ./ 必须写上，否则会报错。路径找不到错误。
 *
 * */
 import School from "./School";
@@ -30,6 +30,7 @@ import Student from "./Student";
       简化：
       export default {配置对象}
 * */
+
 
 export default {
   name: "App",
