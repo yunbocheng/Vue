@@ -9,7 +9,10 @@
     <!-- 开启移动端的理想视口 -->
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-    <!-- 配置页签图标（<%= BASE_URL %>代表的是./。在public文件下访问public中的东西就使用<%= BASE_URL %>）-->
+    <!-- 配置页签图标（<%= BASE_URL %>代表的是./。在public文件下访问public中的东西就使用<%= BASE_URL %>）
+                    <%= BASE_URL %> 的根路径就是 public这个文件夹。
+                    <%= BASE_URL %> 使用的就是 EL表达式。
+    -->
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
 
     <!-- 配置网页的标题 使用以下的这个形式那么就是默默的去找 package.json 中的name属性值。然后替换掉这个地方的值。-->

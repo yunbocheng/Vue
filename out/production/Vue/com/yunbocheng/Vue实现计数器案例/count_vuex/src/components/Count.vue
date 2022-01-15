@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h2>当前求和为：????</h2>
+    <h2>当前求和为：{{$store.state.sum}}</h2>
     <select v-model.number="number">
       <option value="1">1</option>
       <option value="2">2</option>
@@ -24,19 +24,19 @@
     },
     methods:{
       add(){
-
+        this.$store.dispatch('jia',this.number)
       },
       sub(){
-
+        this.$store.dispatch('jian',this.number)
       },
       uneven(){
-        if (this.sum % 2 !== 0){
-
+        if (this.$store.state.sum % 2 !== 0){
+          this.$store.dispatch('jia',this.number)
         }
       },
       wait(){
         setTimeout( ()=>{
-
+          this.$store.dispatch('jia',this.number)
         },3000)
       }
     },
