@@ -13,25 +13,20 @@ import Detail from "@/pages/Detail";
 
 // 创建并且暴露一个路由器
 export default  new VueRouter({
+    // mode属性：存在history、hash两个属性值。用来改变该路由器的工作模式。默认是：hash模式
+    mode:'history',
     routes:[
-        // routes是一个数组，其中每一个路由都是一个对象。对象中存储的都是 key - value 的形式
         {
+            name:'guanyu',
             path: '/about',
-            component: About,
-            // meta也是 $router(路由器) 中的一个配置属性，这个属性叫做元属性，
-            // 这个属性中可以存储我们自己自定义的属性值以及对应的属性值。
-            // 当我们获取的时候使用 this.meta.isAuth 或者 this.$router.meta.isAuth
-            // 使用哪种方式获取需要看此时的this是什么，如果是$router直接获取即可。
-            // 如果是VC或者VR就需要先获取其中的 $router 在获取其meta里面自定义的属性值。
-            meta:{isAuth:true},
+            component: About
         },
         {
+            name:'xiaoxi',
             path: '/home',
             component: Home,
             children:[
                 {
-                    // 注意：当这个路由是二级以及多级路由的时候，不需要再加 "/"。
-                    // vue会自动帮我们加一个"/"。如果我们再加就会报错。
                     path: 'news',
                     component : News
                 },
@@ -40,8 +35,14 @@ export default  new VueRouter({
                     component: Message,
                     children:[
                         {
-                          path: 'detail',
-                          component: Detail
+                            name:'xiangqing',
+                            path: 'detail/:id/:title',
+                            component: Detail,
+                            props($route){
+                                return {id2:$route.params.id,title2:$route.params.title}
+                                /*return {id2:$route.query.id,title2:$route.query.title}*/
+                            }
+
                         },
                     ]
                 }
